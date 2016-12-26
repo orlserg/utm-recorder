@@ -1,11 +1,8 @@
 {
     "name": "orlserg/utm-recorder",
+    "keywords": ["laravel", "demo"],
     "description": "Package to track utm attributes from visitors",
     "type": "library",
-    "require": {},
-    "require-dev": {
-
-    },
     "license": "MIT",
     "authors": [
         {
@@ -18,5 +15,5 @@
             "Orlserg\\UtmRecorder\\": "app/packages/orlserg/utm-recorder/src"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
