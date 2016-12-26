@@ -21,10 +21,10 @@
             "Orlserg\\UtmRecorder\\": "app/packages/orlserg/utm-recorder/src"
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "master": "1.0.0"
+            "master": "1.0.0-dev"
         }
     }
 }
