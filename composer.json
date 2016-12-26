@@ -13,7 +13,7 @@
             "email": "or-serg@yandex.ru"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "autoload": {
         "classmap": [
             "src/migrations"
