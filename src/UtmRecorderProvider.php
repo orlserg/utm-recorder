@@ -3,7 +3,7 @@ namespace Orlserg\UtmRecorder;
 
 use Illuminate\Support\ServiceProvider;
 
-class FootprintsServiceProvider extends ServiceProvider
+class UtmRecorderServiceProvider extends ServiceProvider
 {
     /**
      * Perform post-registration booting of services.
