@@ -15,5 +15,12 @@
             "Orlserg\\UtmRecorder\\": "app/packages/orlserg/utm-recorder/src"
         }
     },
-    "minimum-stability": "stable"
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
 }
