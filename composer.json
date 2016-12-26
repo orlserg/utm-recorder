@@ -12,7 +12,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Orlserg\\UtmRecorder\\": "app/packages/orlserg/utm-recorder/src"
+            "Orlserg\\UtmRecorder\\": "src/"
         }
     },
     "require": {
