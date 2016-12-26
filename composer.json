@@ -3,8 +3,8 @@
     "description": "Package to track utm attributes from visitors",
     "type": "library",
     "require": {
-        "illuminate/support": "~5.1",
-        "php": "~5.5"
+        "laravel/framework": "^5.3",
+        "php": ">=5.6.4"
     },
     "license": "MIT",
     "authors": [
