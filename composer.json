@@ -15,5 +15,5 @@
             "Orlserg\\UtmRecorder\\": "app/packages/orlserg/utm-recorder/src"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
