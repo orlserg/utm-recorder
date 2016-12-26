@@ -13,10 +13,13 @@
             "email": "or-serg@yandex.ru"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
         "psr-4": {
-            "Orlserg\\UtmRecorder\\": "packages/orlserg/utm-recorder/src"
+            "Orlserg\\UtmRecorder\\": "app/packages/orlserg/utm-recorder/src"
         }
     }
 }
