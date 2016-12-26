@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Visit;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Closure;
+use Orlserg\UtmRecorder\Models\Visit;
 
 class UtmRecorder
 {
@@ -53,7 +53,11 @@ class UtmRecorder
             return $this->response;
         }
 
-        $this->trackVisit($this->captureUTM());
+        $this->trackVisit(array_merge(
+            $this->captureUTM(),
+            $this->captureReferer()
+        ));
+
         return $this->response;
     }
 

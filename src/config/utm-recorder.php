@@ -2,7 +2,18 @@
 
 return [
 
-    'connection_name' => null,
+    /* ------------------------------------------------------------------------------------------------
+     |  Table name
+     | ------------------------------------------------------------------------------------------------
+     |  Define table name which will be linked with user visits.
+     */
+    'link_visits_with' => 'users',
+
+    'link_visits_with_model' => \App\User::class,
+
+    'cache_utm' => true,
+
+    'cache_utm_time' => 256,
 
     'session_key' => 'utm-recorder',
 
