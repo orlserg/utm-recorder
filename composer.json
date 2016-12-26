@@ -1,0 +1,22 @@
+{
+    "name": "orlserg/utm-recorder",
+    "description": "Package to track utm attributes from visitors",
+    "type": "library",
+    "require": {
+        "illuminate/support": "~5.1",
+        "php": "~5.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Orlov Sergey",
+            "email": "or-serg@yandex.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Orlserg\\UtmRecorder\\": "packages/orlserg/utm-recorder/src"
+        }
+    }
+}
