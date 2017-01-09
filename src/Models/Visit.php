@@ -10,7 +10,6 @@ class Visit extends Model
 
     public function user()
     {
-        return $this->hasOne(config('utm-recorder.link_visits_with_model'), 'user_id');
+        return $this->belongsToMany(config('utm-recorder.link_visits_with_model'), 'user_id');
     }
-
 }
