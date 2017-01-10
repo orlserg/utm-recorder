@@ -18,7 +18,10 @@ class CreateUtmRecorderTables extends Migration
         Schema::create('visits', function (Blueprint $table) use ($link_with) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on($link_with)->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on($link_with)
+                ->onDelete('cascade');
             $table->string('referrer_domain')->nullable();
             $table->string('referrer_url')->nullable();
             $table->index('user_id');
@@ -30,13 +33,20 @@ class CreateUtmRecorderTables extends Migration
             $table->string('name');
         });
 
-        Schema::create('utm_params_visits', function (Blueprint $table) {
+        Schema::create('utm_param_visit', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('visit_id')->unsigned();
-            $table->foreign('visit_id')->references('id')->on('visit')->onDelete('cascade');
+            $table->foreign('visit_id')
+                ->references('id')
+                ->on('visits')
+                ->onDelete('cascade');
             $table->integer('utm_param_id')->unsigned();
-            $table->foreign('utm_param_id')->references('id')->on('utm_params');
+            $table->foreign('utm_param_id')
+                ->references('id')
+                ->on('utm_params')
+                ->onDelete('cascade');
             $table->index(['utm_param_id', 'visit_id']);
+            $table->string('content');
         });
 
         $table = DB::table('utm_params');
@@ -54,7 +64,7 @@ class CreateUtmRecorderTables extends Migration
      */
     public function down()
     {
-        Schema::drop('utm_params_visits');
+        Schema::drop('utm_param_visit');
         Schema::drop('visits');
         Schema::drop('utm_params');
     }

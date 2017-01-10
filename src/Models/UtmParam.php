@@ -7,5 +7,4 @@ use Illuminate\Database\Eloquent\Model;
 class UtmParam extends Model
 {
     protected $guarded = ['id'];
-
 }
