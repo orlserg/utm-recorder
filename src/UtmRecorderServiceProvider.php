@@ -1,6 +1,7 @@
 <?php
 namespace Orlserg\UtmRecorder;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class UtmRecorderServiceProvider extends ServiceProvider
@@ -24,5 +25,14 @@ class UtmRecorderServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/config/utm-recorder.php', 'utm-recorder');
+
+        $this->app->singleton(UtmRecorder::class, function () {
+            return new UtmRecorder();
+        });
+
+        $this->app->booting(function () {
+            $loader = AliasLoader::getInstance();
+            $loader->alias('UtmRecorder', UtmRecorder::class);
+        });
     }
 }

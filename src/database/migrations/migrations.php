@@ -17,14 +17,16 @@ class CreateUtmRecorderTables extends Migration
 
         Schema::create('visits', function (Blueprint $table) use ($link_with) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')
+            $table->integer('owner_id')->unsigned();
+            $table->foreign('owner_id')
                 ->references('id')
                 ->on($link_with)
                 ->onDelete('cascade');
             $table->string('referrer_domain')->nullable();
+            $table->boolean('is_internal')->default(false);
             $table->string('referrer_url')->nullable();
-            $table->index('user_id');
+            $table->string('method')->nullable();
+            $table->index('owner_id');
             $table->timestamps();
         });
 
@@ -33,8 +35,8 @@ class CreateUtmRecorderTables extends Migration
             $table->string('name');
         });
 
-        Schema::create('utm_param_visit', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('utm_content', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->integer('visit_id')->unsigned();
             $table->foreign('visit_id')
                 ->references('id')
@@ -64,7 +66,7 @@ class CreateUtmRecorderTables extends Migration
      */
     public function down()
     {
-        Schema::drop('utm_param_visit');
+        Schema::drop('utm_content');
         Schema::drop('visits');
         Schema::drop('utm_params');
     }

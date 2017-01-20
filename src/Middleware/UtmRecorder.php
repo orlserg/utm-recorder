@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Orlserg\UtmRecorder\Middleware;
 
-use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Closure;
 use Orlserg\UtmRecorder\Models\Visit;
 
@@ -24,6 +22,8 @@ class UtmRecorder
      */
     protected $response;
 
+    protected $is_internal;
+
     /**
      * Handle an incoming request.
      *
@@ -37,57 +37,78 @@ class UtmRecorder
         $this->request = $request;
         $this->response = $next($this->request);
 
-        if (!$this->request->isMethod('get')) {
+        if (!$this->isAllowedMethod()) {
             return $this->response;
+        }
+
+        if ($this->is_internal = $this->isInternalReferrer()) {
+            if (!config('utm-recorder.capture_internal')) {
+                return $this->response;
+            }
         }
 
         if ($this->isHostBlacklisted()) {
             return $this->response;
         }
 
-        if ($this->isInternalReferrer()) {
+        if (!$this->checkSource()) {
             return $this->response;
         }
 
-        if ($this->isAllowedSource()) {
-            return $this->response;
-        }
-
-        $this->trackVisit(array_merge(
-            $this->captureUTM(),
-            $this->captureReferer()
-        ));
+        $visit = $this->createVisit();
+        $this->trackVisit($visit);
 
         return $this->response;
     }
 
-    protected function getSessionKey()
+    protected function isAllowedMethod()
     {
-        return config('utm-recorder.session_key');
+        return in_array($this->request->getMethod(), config('utm-recorder.allowed_methods'));
     }
 
     /**
+     * Return true if source is allowed
+     *
+     * @param $source
      * @return bool
      */
-    protected function isAllowedSource()
+    protected function isAllowedSource($source)
     {
-        $source = $this->request->has('utm_source')
-            ? $this->request->input('utm_source')
-            : null;
-
-        if (!$source) {
-            return false;
-        }
-
         $allowed_sources = config('utm-recorder.allowed_sources');
         if (!$allowed_sources) {
             return true;
         }
 
-        foreach ($allowed_sources as $allowed_source) {
-            if ($allowed_source != $source) {
-                return false;
-            }
+        return in_array($source, $allowed_sources);
+    }
+
+    /**
+     * Return true if source is disallowed
+     *
+     * @param $source
+     * @return bool
+     */
+    protected function isDisallowedSource($source)
+    {
+        $disallowed_sources = config('utm-recorder.disallowed_sources');
+        if (!$disallowed_sources) {
+            return false;
+        }
+
+        return in_array($source, $disallowed_sources);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function checkSource()
+    {
+        $source = $this->request->has('utm_source')
+            ? $this->request->input('utm_source')
+            : null;
+
+        if ($source) {
+            return $this->isAllowedSource($source) && !$this->isDisallowedSource($source);
         }
 
         return true;
@@ -98,13 +119,10 @@ class UtmRecorder
      */
     protected function isInternalReferrer()
     {
-        if (config('utm-recorder.disable_internal_links')) {
-            return false;
-        }
-
         $referrer_domain = parse_url($this->request->headers->get('referer'));
-        $referrer_domain = !isset($referrer_domain['host']) ? null : $referrer_domain['host'];
+        $referrer_domain = isset($referrer_domain['host']) ? $referrer_domain['host'] : null;
         $request_domain = $this->request->server('SERVER_NAME');
+
         if (!empty($referrer_domain) && $referrer_domain == $request_domain) {
             return false;
         }
@@ -126,7 +144,7 @@ class UtmRecorder
         $referrer_domain = isset($referrer_domain['host']) ? $referrer_domain['host'] : null;
 
         foreach ($blacklist as $host) {
-            if (!empty($referrer_domain) == $host) {
+            if (!empty($referrer_domain) && $referrer_domain == $host) {
                 return true;
             }
         }
@@ -135,7 +153,7 @@ class UtmRecorder
     }
 
     /**
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     protected function captureUTM()
     {
@@ -161,7 +179,7 @@ class UtmRecorder
             }
         }
 
-        return $utm;
+        return collect($utm);
     }
 
     /**
@@ -182,9 +200,18 @@ class UtmRecorder
      */
     protected function trackVisit(Visit $visit)
     {
-        $key = $this->getSessionKey();
-        $stored = session($key);
-        $stored[] = $visit;
-        session($key, $stored);
+        session()->push(config('utm-recorder.session_key'), $visit);
+    }
+
+    protected function createVisit()
+    {
+        $visit = new Visit(
+            array_merge($this->captureReferer(), [
+                'method' => $this->request->getMethod(),
+                'is_internal' => $this->is_internal
+            ])
+        );
+        $visit->setUtms($this->captureUTM());
+        return $visit;
     }
 }
