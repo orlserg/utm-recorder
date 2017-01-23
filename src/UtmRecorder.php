@@ -8,6 +8,8 @@ class UtmRecorder
 {
     /**
      * Save visits to db linked with concrete owner
+     *
+     * @param $owner
      */
     public function saveRecords($owner)
     {

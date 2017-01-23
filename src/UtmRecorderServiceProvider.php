@@ -29,10 +29,5 @@ class UtmRecorderServiceProvider extends ServiceProvider
         $this->app->singleton(UtmRecorder::class, function () {
             return new UtmRecorder();
         });
-
-        $this->app->booting(function () {
-            $loader = AliasLoader::getInstance();
-            $loader->alias('UtmRecorder', UtmRecorder::class);
-        });
     }
 }
