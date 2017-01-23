@@ -14,10 +14,10 @@ class Visit extends Model
 
     protected $utms = [];
 
-//    public function owner()
-//    {
-//        return $this->belongsToMany(config('utm-recorder.link_visits_with_model'), 'user_id');
-//    }
+    public function owner()
+    {
+        return $this->belongsToMany(config('utm-recorder.link_visits_with_model'), 'owner_id');
+    }
 
     public function params()
     {

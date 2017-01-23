@@ -35,7 +35,7 @@ class CreateUtmRecorderTables extends Migration
             $table->string('name');
         });
 
-        Schema::create('utm_content', function (Blueprint $table) {
+        Schema::create('utm_contents', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('visit_id')->unsigned();
             $table->foreign('visit_id')
@@ -66,7 +66,7 @@ class CreateUtmRecorderTables extends Migration
      */
     public function down()
     {
-        Schema::drop('utm_content');
+        Schema::drop('utm_contents');
         Schema::drop('visits');
         Schema::drop('utm_params');
     }
