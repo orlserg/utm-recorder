@@ -1,6 +1,6 @@
 # UtmRecorder
 
-UtmRecorder help you recor utm parameters from visitors and visited urls.
+UtmRecorder help you record utm parameters from visitors and visited urls.
 
 # Documentation
 
