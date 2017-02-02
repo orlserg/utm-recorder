@@ -7,9 +7,9 @@ return [
      | ------------------------------------------------------------------------------------------------
      |  Define table name which will be linked with user visits.
      */
-    'link_visits_with' => 'visitors',
+    'link_visits_with' => 'users',
 
-    'link_visits_with_model' => \App\Visitor::class,
+    'link_visits_with_model' => \App\User::class,
 
     'cache_utm' => true,
 
@@ -17,7 +17,7 @@ return [
 
     'session_key' => 'utm-recorder',
 
-    'capture_internal' => true,
+    'capture_internal' => false,
 
     /* ------------------------------------------------------------------------------------------------
      |  Allowed methods
@@ -34,7 +34,7 @@ return [
      |  Visits from this hosts will not be recorded.
      */
     'host_blacklist' => [
-        'google.ru'
+
     ],
 
     /* ------------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ return [
      |  Only visits from this sources (UTM) will be recorded.
      */
     'allowed_sources' => [
-        'leadssu'
+
     ],
 
     /* ------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
      |  Visits from this sources (UTM) will not be recorded.
      */
     'disallowed_sources' => [
-        'goroten'
+
     ],
 
     /* ------------------------------------------------------------------------------------------------

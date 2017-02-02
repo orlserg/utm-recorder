@@ -34,4 +34,14 @@ class Visit extends Model
     {
         return $this->utms;
     }
+
+    public function getUtmsAsArray()
+    {
+        $result = [];
+        foreach ($this->params as $param) {
+            $data = $param->getOriginal();
+            $result[$data['name']] = $data['pivot_content'];
+        }
+        return $result;
+    }
 }
