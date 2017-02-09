@@ -15,12 +15,14 @@ class UtmRecorder
     {
         $key = config('utm-recorder.session_key');
 
-        $visits = session($key);
-        $owner->visits()->saveMany($visits);
+        $visits = session($key) ?: [];
+        if ($visits) {
+            $owner->visits()->saveMany($visits);
 
-        foreach ($visits as $visit) {
-            $data = $this->prepareUtms($visit->getUtms());
-            $visit->params()->sync($data);
+            foreach ($visits as $visit) {
+                $data = $this->prepareUtms($visit->getUtms());
+                $visit->params()->sync($data);
+            }
         }
 
         session()->forget(['visitor', $key]);
