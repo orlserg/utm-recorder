@@ -165,11 +165,7 @@ class UtmRecorder
             if ($this->request->has($parameter)) {
                 if ($transformable) {
                     foreach ($transformable as $old => $new) {
-                        if ($this->request->has($old)) {
-                            $utm[$new] = $this->request->input($old);
-                        } else {
-                            $utm[$new] = null;
-                        }
+                        $utm[$new] = !$this->request->has($old) ?: $this->request->input($old);
                     }
                 } else {
                     $utm[$parameter] = $this->request->input($parameter);
@@ -200,7 +196,11 @@ class UtmRecorder
      */
     protected function trackVisit(Visit $visit)
     {
-        session()->push(config('utm-recorder.session_key'), $visit);
+        if (\Auth::check()) {
+            \Auth::user()->visits()->save($visit);
+        } else {
+            session()->push(config('utm-recorder.session_key'), $visit);
+        }
     }
 
     protected function createVisit()

@@ -25,7 +25,7 @@ class UtmRecorder
             }
         }
 
-        session()->forget(['visitor', $key]);
+        session()->forget([$key]);
     }
 
     /**
