@@ -157,10 +157,10 @@ class UtmRecorder
      */
     protected function captureUTM()
     {
+        $utm = [];
         $parameters = config('utm-recorder.record_attributes');
         $transformable = config('utm-recorder.transform_attributes');
 
-        $utm = [];
         foreach ($parameters as $parameter) {
             if ($this->request->has($parameter)) {
                 if ($transformable) {
@@ -170,8 +170,6 @@ class UtmRecorder
                 } else {
                     $utm[$parameter] = $this->request->input($parameter);
                 }
-            } else {
-                $utm[$parameter] = null;
             }
         }
 
@@ -211,7 +209,9 @@ class UtmRecorder
                 'is_internal' => $this->is_internal
             ])
         );
+
         $visit->setUtms($this->captureUTM());
+
         return $visit;
     }
 }
