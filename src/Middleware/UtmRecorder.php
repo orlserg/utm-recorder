@@ -124,10 +124,10 @@ class UtmRecorder
         $request_domain = $this->request->server('SERVER_NAME');
 
         if (!empty($referrer_domain) && $referrer_domain == $request_domain) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
