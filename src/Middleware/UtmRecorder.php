@@ -123,7 +123,7 @@ class UtmRecorder
         $referrer_domain = isset($referrer_domain['host']) ? $referrer_domain['host'] : null;
         $request_domain = $this->request->server('SERVER_NAME');
 
-        if (!empty($referrer_domain) && $referrer_domain == $request_domain) {
+        if (empty($referrer_domain) || $referrer_domain == $request_domain) {
             return true;
         }
 
