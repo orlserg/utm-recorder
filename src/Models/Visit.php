@@ -53,7 +53,7 @@ class Visit extends Model
      */
     protected function prepareUtms($utms)
     {
-        $param = new static;
+        $param = new UtmParam();
         $result = [];
 
         foreach ($utms as $key => $utm) {
