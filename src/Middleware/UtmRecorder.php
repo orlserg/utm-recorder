@@ -196,6 +196,8 @@ class UtmRecorder
     {
         if (\Auth::check()) {
             \Auth::user()->visits()->save($visit);
+            $data = $visit->getUtms();
+            $visit->params()->sync($data);
         } else {
             session()->push(config('utm-recorder.session_key'), $visit);
         }

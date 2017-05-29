@@ -20,7 +20,7 @@ class UtmRecorder
             $owner->visits()->saveMany($visits);
 
             foreach ($visits as $visit) {
-                $data = $this->prepareUtms($visit->getUtms());
+                $data = $visit->getUtms();
                 $visit->params()->sync($data);
             }
         }
@@ -28,21 +28,5 @@ class UtmRecorder
         session()->forget([$key]);
     }
 
-    /**
-     * Create data array for sync()
-     *
-     * @param $utms
-     * @return array
-     */
-    protected function prepareUtms($utms)
-    {
-        $param = new UtmParam();
-        $result = [];
 
-        foreach ($utms as $key => $utm) {
-            $result[$param->getId($key)] = ['content' => $utm];
-        }
-
-        return $result;
-    }
 }

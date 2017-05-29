@@ -32,7 +32,7 @@ class Visit extends Model
 
     public function getUtms()
     {
-        return $this->utms;
+        return $this->prepareUtms($this->utms);
     }
 
     public function getUtmsAsArray()
@@ -42,6 +42,24 @@ class Visit extends Model
             $data = $param->getOriginal();
             $result[$data['name']] = $data['pivot_content'];
         }
+        return $result;
+    }
+
+    /**
+     * Create data array for sync()
+     *
+     * @param $utms
+     * @return array
+     */
+    protected function prepareUtms($utms)
+    {
+        $param = new static;
+        $result = [];
+
+        foreach ($utms as $key => $utm) {
+            $result[$param->getId($key)] = ['content' => $utm];
+        }
+
         return $result;
     }
 }
