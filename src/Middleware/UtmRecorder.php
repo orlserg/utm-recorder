@@ -166,14 +166,15 @@ class UtmRecorder
                 continue;
             }
 
-            $param = $this->request->input($parameter);
+            $utm[$parameter] = $this->request->input($parameter);
+        }
 
-            if ($transformable->has($parameter)) {
-                $new = $transformable->get($parameter);
-                $utm[$new] = $param;
-            } else {
-                $utm[$parameter] = $param;
+        foreach ($transformable as $key => $value) {
+            if (!$this->request->has($key)) {
+                continue;
             }
+
+            $utm[$value] = $this->request->input($key);
         }
 
         return collect($utm);
