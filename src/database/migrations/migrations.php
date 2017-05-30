@@ -22,6 +22,7 @@ class CreateUtmRecorderTables extends Migration
                 ->references('id')
                 ->on($link_with)
                 ->onDelete('cascade');
+            $table->string('url');
             $table->string('referrer_domain')->nullable();
             $table->boolean('is_internal')->default(false);
             $table->string('referrer_url')->nullable();
