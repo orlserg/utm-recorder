@@ -159,17 +159,20 @@ class UtmRecorder
     {
         $utm = [];
         $parameters = config('utm-recorder.record_attributes');
-        $transformable = config('utm-recorder.transform_attributes');
+        $transformable = collect(config('utm-recorder.transform_attributes'));
 
         foreach ($parameters as $parameter) {
-            if ($this->request->has($parameter)) {
-                if ($transformable) {
-                    foreach ($transformable as $old => $new) {
-                        $utm[$new] = !$this->request->has($old) ?: $this->request->input($old);
-                    }
-                } else {
-                    $utm[$parameter] = $this->request->input($parameter);
-                }
+            if (!$this->request->has($parameter)) {
+                continue;
+            }
+
+            $param = $this->request->input($parameter);
+
+            if ($transformable->has($parameter)) {
+                $new = $transformable->get($parameter);
+                $utm[$new] = $param;
+            } else {
+                $utm[$parameter] = $param;
             }
         }
 
