@@ -2,6 +2,7 @@
 
 namespace Orlserg\UtmRecorder\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Visit extends Model
@@ -61,5 +62,17 @@ class Visit extends Model
         }
 
         return $result;
+    }
+
+    public function scopeLastSourced($query, Carbon $date = null)
+    {
+        $date = $date ?: Carbon::now()->subMonth(1);
+
+        return $query->where('created_at', '>=', $date->toDateTimeString())
+            ->whereHas('params', function ($q) {
+                $q->where('utm_param_id', '=', 1);
+            })
+            ->latest()
+            ->take(1);
     }
 }
