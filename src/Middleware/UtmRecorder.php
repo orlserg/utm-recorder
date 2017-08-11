@@ -211,7 +211,7 @@ class UtmRecorder
     {
         $visit = new Visit(
             array_merge($this->captureReferer(), [
-                'url' => $this->request->url(),
+                'url' => $this->request->getUri(),
                 'method' => $this->request->getMethod(),
                 'is_internal' => $this->is_internal
             ])
