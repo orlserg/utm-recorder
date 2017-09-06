@@ -38,17 +38,16 @@ class CreateUtmRecorderTables extends Migration
 
         Schema::create('utm_contents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('visit_id')->unsigned();
+            $table->integer('visit_id')->unsigned()->index();
             $table->foreign('visit_id')
                 ->references('id')
                 ->on('visits')
                 ->onDelete('cascade');
-            $table->integer('utm_param_id')->unsigned();
+            $table->integer('utm_param_id')->unsigned()->index();
             $table->foreign('utm_param_id')
                 ->references('id')
                 ->on('utm_params')
                 ->onDelete('cascade');
-            $table->index(['utm_param_id', 'visit_id']);
             $table->string('content');
         });
 
