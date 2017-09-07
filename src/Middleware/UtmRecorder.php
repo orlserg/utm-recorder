@@ -108,10 +108,10 @@ class UtmRecorder
             : null;
 
         if ($source) {
-            return $this->isAllowedSource($source) && !$this->isDisallowedSource($source);
+            return false;
         }
 
-        return true;
+        return $this->isAllowedSource($source) && !$this->isDisallowedSource($source);
     }
 
     /**
