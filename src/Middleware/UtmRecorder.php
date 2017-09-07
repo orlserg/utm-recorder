@@ -107,7 +107,7 @@ class UtmRecorder
             ? $this->request->input('utm_source')
             : null;
 
-        if ($source) {
+        if (!$source) {
             return false;
         }
 
