@@ -2,8 +2,6 @@
 
 namespace Orlserg\UtmRecorder;
 
-use Orlserg\UtmRecorder\Models\UtmParam;
-
 class UtmRecorder
 {
     /**
@@ -27,6 +25,4 @@ class UtmRecorder
 
         session()->forget([$key]);
     }
-
-
 }

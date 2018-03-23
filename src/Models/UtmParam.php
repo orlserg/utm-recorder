@@ -3,8 +3,6 @@
 namespace Orlserg\UtmRecorder\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use Orlserg\UtmRecorder\Exceptions\UtmParamNotFound;
 
 class UtmParam extends Model
 {
@@ -25,7 +23,7 @@ class UtmParam extends Model
             }
         }
 
-        $id = static::whereName($name)->first()->id;
+        $id = static::where('name', $name)->first()->id;
         if ($cache) {
             cache([$name, $id], config('utm-recorder.cache_time'));
         }

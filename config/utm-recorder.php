@@ -34,16 +34,17 @@ return [
      |  Visits from this hosts will not be recorded.
      */
     'host_blacklist' => [
-
+        // 'google.com'
     ],
 
     /* ------------------------------------------------------------------------------------------------
      |  Allowed sources
      | ------------------------------------------------------------------------------------------------
      |  Only visits from this sources (UTM) will be recorded.
+     |  Empty array allow to record uts from any sources
      */
     'allowed_sources' => [
-
+        // 'leadssu'
     ],
 
     /* ------------------------------------------------------------------------------------------------
@@ -52,7 +53,7 @@ return [
      |  Visits from this sources (UTM) will not be recorded.
      */
     'disallowed_sources' => [
-
+        // 'leadssu'
     ],
 
     /* ------------------------------------------------------------------------------------------------
